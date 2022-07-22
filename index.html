@@ -9,9 +9,8 @@
   <link href="style.css" rel="stylesheet" type="text/css"/>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
   <script src="https://kit.fontawesome.com/339be9ea19.js" crossorigin="anonymous"></script>
-  <title>Pomodoro</title>
-</head>
-<body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script defer src="index.js"></script>
   <div class="title">
     <h1>Pomodoro</h1>
   </div>
@@ -19,8 +18,8 @@
     <!--- Input Element --->
     <div class="textField-container">
       <div class="input-group mt-3">
-        <input type="text" class="form-control" placeholder="Enter Task">
-        <button class="btn btn-outline-success" type="button">+</button>
+        <input type="text" class="form-control" placeholder="Enter Task" >
+        <button class="btn btn-outline-success" type="button" id="addTaskBtn">+</button>
       </div>
     </div>
     
@@ -48,16 +47,13 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Timer</h5>
-            <select class="form-select" aria-label="Default select example">
+            <select class="form-select" id="form-select-task" aria-label="Default select example">
               <option selected disabled>Select Task</option>
-              <option value="1">Code</option>
-              <option value="2">Moar Code</option>
-              <option value="3">Even Moar Code</option>
             </select>
-            <h2 class="timerText">00:00</h2>
+            <h2 class="timerText" id="timer">25:00</h2>
             <div>
-              <a href="#" class="btn btn-primary">Play/Pause</a>
-              <a href="#" class="btn btn-primary">Reset</a>              
+              <a href="#" class="btn btn-primary" id="start">Play/Pause</a>
+              <a href="#" class="btn btn-primary" id="reset">Reset</a>              
             </div>
           </div>
         </div>
@@ -95,9 +91,6 @@
           </div>
         </div>
       </div>
-    
-      
-
   </main>
 </body>
 </html>
