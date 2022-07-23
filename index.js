@@ -86,6 +86,7 @@ const pomodoro = {
   interval: null,
   minutesDom: null,
   secondsDom: null,
+  timeUpAudio: new Audio("./public/sound_trim.mp3"),
 
   init: function () {
     let self = this;
@@ -94,6 +95,7 @@ const pomodoro = {
     this.interval = setInterval(function () {
       self.intervalCallback.apply(self);
     }, 1000);
+
     document.querySelector('#play').onclick = function () {
       self.startPlay.apply(self);
     };
@@ -115,7 +117,7 @@ const pomodoro = {
   },
 
   startPlay: function () {
-    this.resetVariables(25, 0, true);
+    this.resetVariables(15, 0, true);
   },
 
   startShortBreak: function () {
@@ -148,6 +150,9 @@ const pomodoro = {
     if (this.seconds == 0) {
       if (this.minutes == 0) {
         this.timerComplete();
+        setTimeout(() => {
+          this.stopTimeComplete();
+        }, 5000)
         return;
       }
       this.seconds = 59;
@@ -159,11 +164,12 @@ const pomodoro = {
   },
 
   timerComplete: function () {
-    const audio = new Audio();
-    audio.src = "./public/sound_trim.mp3";
-    setInterval(function () {
-      audio.play();
-    }, 100);
+    this.timeUpAudio.play()
+  },
+
+  stopTimeComplete: function () {
+    this.timeUpAudio.pause();
+    this.timeUpAudio.currentTime = 0;
   }
 }
 
