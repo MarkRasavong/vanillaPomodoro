@@ -37,7 +37,7 @@ $(function () {
 
 // const reset = () => {
 //   document.getElementById("reset").reset();
-  
+
 // }
 
 // const startPomo = (action) => {
@@ -53,13 +53,9 @@ $(function () {
 //     }else {
 //       remainingTime += 300
 //     }
-      
-    
 //   }
 //   setInterval(updateTimer, 1000);
-
 // }
-
 // setPomoTime(25);
 
 
@@ -69,7 +65,8 @@ const pomodoro = {
   seconds: 0,
   interval: null,
   minutesDom: null,
-  secondsDom: null,  
+  secondsDom: null,
+
   init: function () {
     let self = this;
     this.minutesDom = document.querySelector('#minutes');
@@ -90,34 +87,42 @@ const pomodoro = {
       self.resetTimer.apply(self);
     };
   },
+
   resetVariables: function (mins, secs, started) {
     this.minutes = mins;
     this.seconds = secs;
-    this.started = started;    
+    this.started = started;
   },
+
   startPlay: function () {
-    this.resetVariables(25, 0, true);    
+    this.resetVariables(25, 0, true);
   },
+
   startShortBreak: function () {
     this.resetVariables(5, 0, true);
   },
+
   startLongBreak: function () {
     this.resetVariables(15, 0, true);
   },
+
   resetTimer: function () {
-    this.resetVariables(25, 0, false);    
-    this.updateDom();    
+    this.resetVariables(25, 0, false);
+    this.updateDom();
   },
+
   toDoubleDigit: function (num) {
     if (num < 10) {
       return "0" + parseInt(num, 10);
     }
     return num;
   },
+
   updateDom: function () {
     this.minutesDom.innerHTML = this.toDoubleDigit(this.minutes);
-    this.secondsDom.innerHTML = this.toDoubleDigit(this.seconds);    
+    this.secondsDom.innerHTML = this.toDoubleDigit(this.seconds);
   },
+
   intervalCallback: function () {
     if (!this.started) return false;
     if (this.seconds == 0) {
@@ -132,13 +137,13 @@ const pomodoro = {
     }
     this.updateDom();
   },
+
   timerComplete: function () {
     const audio = new Audio();
     audio.src = "./public/sound_trim.mp3";
     setInterval(function () {
-      audio.play();      
+      audio.play();
     }, 100);
-
   }
 }
 
