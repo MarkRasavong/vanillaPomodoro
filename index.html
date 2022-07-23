@@ -26,6 +26,7 @@
   <body>
     <div class="title">
       <h1>Pomodoro</h1>
+     
     </div>
     <main>
       <div class="textField-container">
@@ -59,12 +60,17 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Timer</h5>
-            <select class="form-select" aria-label="Default select example">
+            <select class="form-select" id="form-select-task" aria-label="Default select example">
               <option selected disabled>Select Task</option>
-              <option value="1">Code</option>
-              <option value="2">Moar Code</option>
-              <option value="3">Even Moar Code</option>
             </select>
+            
+           
+/*
+            <h2 class="timerText" id="timer">25:00</h2>
+            <div>
+              <a href="#" class="btn btn-primary" id="start">Play/Pause</a>
+              <a href="#" class="btn btn-primary" id="reset">Reset</a>          
+              */
             <div class="timerText">
               <p id="minutes">00</p>
               <p>:</p>
@@ -75,6 +81,7 @@
               <a href="#" class="btn btn-info" id="shortBreak">Short Break</a>
               <a href="#" class="btn btn-success" id="longBreak">Long Break</a><br><br>
               <a href="#" class="btn btn-warning" id="reset">Reset</a>
+              
             </div>
           </div>
         </div>
@@ -122,6 +129,10 @@
           </div>
         </div>
       </div>
+
+  </main>
+</body>
+</html>
     </main>
     <script src="index.js"></script>
   </body>

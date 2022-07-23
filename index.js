@@ -1,3 +1,23 @@
+// Write task and add to task dropbar menu
+// MAY NEED TO CLEAR / DELETE TASKS USR DOESN'T NEED
+
+$(function () {
+  $("#addTaskBtn").click(function () {
+    const tasks = [];
+    tasks.push($(".form-control").val())
+    localStorage.setItem("tasks", JSON.stringify(tasks))
+
+    JSON.parse(localStorage.getItem("tasks"))
+    tasks.forEach(task => {
+      $('#form-select-task').append(`
+      <option value=${task}>
+        ${task}
+      </option>
+      `)
+    })
+  })
+});
+
 // let paused = true;
 // let minutes;
 // let timerDate;
