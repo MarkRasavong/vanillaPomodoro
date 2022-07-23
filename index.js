@@ -1,6 +1,26 @@
 // Write task and add to task dropbar menu
-// MAY NEED TO CLEAR / DELETE TASKS USR DOESN'T NEED
+// MAY NEED TO CLEAR / DELETE TASKS USR DOESN'T NEED;
+if (!localStorage.getItem('tasks')) {
+  localStorage.setItem('tasks', JSON.stringify([]));
+}
 
+document.querySelector('#addTaskBtn').addEventListener('click', function () {
+  let tasks = JSON.parse(localStorage.getItem('tasks'))
+  tasks.push(document.querySelector('#input-task').value);
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+
+  tasks = JSON.parse(localStorage.getItem('tasks'));
+  const selectEle = document.querySelector('#form-select-task');
+
+  tasks.map(task => {
+    const option = document.createElement('option');
+    option.value = task
+    option.text = task
+    selectEle.appendChild(option)
+  });
+});
+
+/*
 $(function () {
   $("#addTaskBtn").click(function () {
     const tasks = [];
@@ -17,7 +37,7 @@ $(function () {
     })
   })
 });
-
+*/
 // let paused = true;
 // let minutes;
 // let timerDate;
