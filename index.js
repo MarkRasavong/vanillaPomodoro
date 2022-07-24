@@ -7,7 +7,7 @@ if (!localStorage.getItem('tasks')) {
 };
 
 if (!localStorage.getItem('workTime')) {
-  localStorage.setItem('workTime', JSON.stringify(0));
+  localStorage.setItem('workTime', 0);
 };
 
 document.querySelector('#addTaskBtn').addEventListener('click', function () {
@@ -44,36 +44,44 @@ pomodoroTime.map(time => {
 // Everytime the select element changes via option
 selectWorkTime.addEventListener('change', function () {
   //set our browser's localStorage key of workTime to the select value
-  localStorage.setItem('workTime', JSON.stringify(this.value));
+  localStorage.setItem('workTime', this.value);
 })
 
-/*
-const btn = document.querySelector('#btn'); ln 48
-btn.onclick = (event) => {
-  event.preventDefault();
-  const selectedValues = [].filter
-    .call(select.options, option => option.selected)
-    .map(option => option.text);
-  alert(selectedValues);
-}
-*/
+// select pomodoro short break
 
-// select pomodoro break
+const selectShortBreak = document.querySelector('#pomodoroShortBreak'); //////
+const pomodoroShortBreak = [5, 5, 5]
 
-const selectBreak = document.querySelector('#pomodoroBreak'); //////
-const pomodoroBreak = [5, 5, 5, 15]
-
-pomodoroBreak.map(time => {
+pomodoroShortBreak.map(time => {
+  //creates a new option element
   const optionEle2 = document.createElement('option');
+  //assisns new option ele with text & value
   optionEle2.text = String(time);
   optionEle2.value = time;
-  selectWorkBreak.appendChild(optionEle2); //////
+  //appends under the select element of id => #pomodoroShortBreak
+  selectShortBreak.appendChild(optionEle2); //////
 });
 
 
-selectWorkBreak.addEventListener('change', function () {
-  localStorage.setItem('', JSON, stringify(this.value));
-})
+selectShortBreak.addEventListener('change', function () {
+  localStorage.setItem('shortBreak', this.value);
+});
+
+// select pomodoro long break
+
+const selectLongBreak = document.querySelector('#pomodoroLongBreak'); //////
+const pomodoroLongBreak = [15]
+
+pomodoroLongBreak.map(time => {
+  const optionEle3 = document.createElement('option');
+  optionEle3.text = String(time);
+  optionEle3.value = time;
+  selectLongBreak.appendChild(optionEle3); //////
+});
+
+selectLongBreak.addEventListener('change', function () {
+  localStorage.setItem('longBreak', this.value);
+});
 
 
 
