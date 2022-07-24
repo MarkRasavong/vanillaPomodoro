@@ -1,8 +1,14 @@
 // Write task and add to task dropbar menu
 // MAY NEED TO CLEAR / DELETE TASKS USR DOESN'T NEED;
+const selectEle = document.querySelector('#form-select-task');
+
 if (!localStorage.getItem('tasks')) {
   localStorage.setItem('tasks', JSON.stringify([]));
-}
+};
+
+if (!localStorage.getItem('workTime')) {
+  localStorage.setItem('workTime', JSON.stringify(0));
+};
 
 document.querySelector('#addTaskBtn').addEventListener('click', function () {
   let tasks = JSON.parse(localStorage.getItem('tasks'))
@@ -10,7 +16,6 @@ document.querySelector('#addTaskBtn').addEventListener('click', function () {
   localStorage.setItem('tasks', JSON.stringify(tasks));
 
   tasks = JSON.parse(localStorage.getItem('tasks'));
-  const selectEle = document.querySelector('#form-select-task');
 
   tasks.map(task => {
     const option = document.createElement('option');
@@ -20,132 +25,113 @@ document.querySelector('#addTaskBtn').addEventListener('click', function () {
   });
 });
 
-/*
-$(function () {
-  $("#addTaskBtn").click(function () {
-    const tasks = [];
-    tasks.push($(".form-control").val())
-    localStorage.setItem("tasks", JSON.stringify(tasks))
+// SELECT POMODORO TIME
 
-    JSON.parse(localStorage.getItem("tasks"))
-    tasks.forEach(task => {
-      $('#form-select-task').append(`
-      <option value=${task}>
-        ${task}
-      </option>
-      `)
-    })
-  })
+const selectWorkTime = document.querySelector('#pomodoroTimeSelect');
+const pomodoroTime = [20, 25, 30, 35, 40, 45]
+
+//MAPS or LOOPS THROUGH EACH ITEM OF OUR pomodoroTime ARRAY & RENDERS DROPDOWN OPTIONS
+pomodoroTime.map(time => {
+  const optionEle = document.createElement('option');
+  //set displayText to time => converts time to string
+  optionEle.text = String(time);
+  // sets value as actual number
+  optionEle.value = time;
+  //appends the new option on the bottom of the select element on HTML 
+  selectWorkTime.appendChild(optionEle);
 });
+
+// Everytime the select element changes via option
+selectWorkTime.addEventListener('change', function () {
+  //set our browser's localStorage key of workTime to the select value
+  localStorage.setItem('workTime', JSON.stringify(this.value));
+})
+
+/*
+const btn = document.querySelector('#btn'); ln 48
+btn.onclick = (event) => {
+  event.preventDefault();
+  const selectedValues = [].filter
+    .call(select.options, option => option.selected)
+    .map(option => option.text);
+  alert(selectedValues);
+}
 */
-// let paused = true;
-// let minutes;
-// let timerDate;
-// let remainingTime = 0;
+
+// select pomodoro break
+
+const selectBreak = document.querySelector('#pomodoroBreak'); //////
+const pomodoroBreak = [5, 5, 5, 15]
+
+pomodoroBreak.map(time => {
+  const optionEle2 = document.createElement('option');
+  optionEle2.text = String(time);
+  optionEle2.value = time;
+  selectWorkBreak.appendChild(optionEle2); //////
+});
+
+
+selectWorkBreak.addEventListener('change', function () {
+  localStorage.setItem('', JSON, stringify(this.value));
+})
 
 
 
-// const setPomoTime = (minutes) => {
-//   paused = true;
-//   document.getElementById("minutes").innerHTML = "00";
-//   document.getElementById("seconds").innerHTML = "00";
-//   timerDate = new Date(new Date().getTime() + minutes * 60000);
-//   remainingTime = 0;
-//   paused = true;
-//   document.getElementById("play").innerHTML = "Play";
-// }
+class Pomodoro {
+  constructor(workMinutes, longBreakMins, shortBreakMins, started) {
+    this.workMinutes = workMinutes;
+    this.longBreakMins = longBreakMins;
+    this.shortBreakMins = shortBreakMins;
+    this.started = started;
+    this.interval = null;
+    this.minutesDom = null;
+    this.secondsDom = null;
+    this.timeUpAudio = new Audio("./public/sound_trim.mp3");
+  }
 
-// const reset = () => {
-//   document.getElementById("reset").reset();
-
-// }
-
-// const startPomo = (action) => {
-//   paused = !paused;
-//   document.getElementById("play").innerHTML = paused ? "Play" : "Pause";
-
-//   const updateTimer = () => {
-//     if (!paused) {
-//       const date = new Date().getTime() - remainingTime;
-//       const timeLeft = timerDate - date;
-//       document.getElementById("minutes").innerHTML = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-//       document.getElementById("seconds").innerHTML = Math.floor((timeLeft % (1000 * 60)) / 1000);
-//     }else {
-//       remainingTime += 300
-//     }
-//   }
-//   setInterval(updateTimer, 1000);
-// }
-// setPomoTime(25);
-
-
-const pomodoro = {
-  started: false,
-  minutes: 0,
-  seconds: 0,
-  interval: null,
-  minutesDom: null,
-  secondsDom: null,
-  timeUpAudio: new Audio("./public/sound_trim.mp3"),
-
-  init: function () {
-    let self = this;
+  init() {
     this.minutesDom = document.querySelector('#minutes');
     this.secondsDom = document.querySelector('#seconds');
-    this.interval = setInterval(function () {
-      self.intervalCallback.apply(self);
-    }, 1000);
+    this.interval = setInterval(() => {
+      this.intervalCallback.apply(this);
+    }, 1000)
+  }
 
-    document.querySelector('#play').onclick = function () {
-      self.startPlay.apply(self);
-    };
-    document.querySelector('#shortBreak').onclick = function () {
-      self.startShortBreak.apply(self);
-    };
-    document.querySelector('#longBreak').onclick = function () {
-      self.startLongBreak.apply(self);
-    };
-    document.querySelector('#reset').onclick = function () {
-      self.resetTimer.apply(self);
-    };
-  },
+  startPlay() {
+    this.resetVariables(this.workMinutes, true);
+  }
 
-  resetVariables: function (mins, secs, started) {
-    this.minutes = mins;
-    this.seconds = secs;
-    this.started = started;
-  },
+  startShortBreak() {
+    this.resetVariables(this.shortBreakMins, true);
+  }
 
-  startPlay: function () {
-    this.resetVariables(15, 0, true);
-  },
+  startLongBreak() {
+    this.resetVariables(this.workMinutes, true);
+  }
 
-  startShortBreak: function () {
-    this.resetVariables(5, 0, true);
-  },
-
-  startLongBreak: function () {
-    this.resetVariables(15, 0, true);
-  },
-
-  resetTimer: function () {
-    this.resetVariables(25, 0, false);
+  resetTimer() {
+    this.resetVariables(this.workMinutes, false);
     this.updateDom();
-  },
+  }
 
-  toDoubleDigit: function (num) {
+  resetVariables(minutes, started) {
+    this.minutes = minutes;
+    this.started = started;
+  }
+
+  toDoubleDigit(num) {
     if (num < 10) {
       return "0" + parseInt(num, 10);
     }
     return num;
-  },
+  }
 
-  updateDom: function () {
+  updateDom() {
     this.minutesDom.innerHTML = this.toDoubleDigit(this.minutes);
     this.secondsDom.innerHTML = this.toDoubleDigit(this.seconds);
-  },
+  }
 
-  intervalCallback: function () {
+  intervalCallback() {
     if (!this.started) return false;
     if (this.seconds == 0) {
       if (this.minutes == 0) {
@@ -161,18 +147,14 @@ const pomodoro = {
       this.seconds--;
     }
     this.updateDom();
-  },
+  }
 
-  timerComplete: function () {
+  timerComplete() {
     this.timeUpAudio.play()
-  },
+  }
 
-  stopTimeComplete: function () {
+  stopTimeComplete() {
     this.timeUpAudio.pause();
     this.timeUpAudio.currentTime = 0;
   }
 }
-
-window.onload = function () {
-  pomodoro.init();
-};
